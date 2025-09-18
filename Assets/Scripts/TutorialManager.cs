@@ -17,19 +17,38 @@ public class TutorialManager : MonoBehaviour
     public DRONECONT droneController;
     public FSJoystickInput joystickInput;
 
+    [Header("Checkpoint References")]
+    public GameObject checkpointsParent; // Parent GameObject holding checkpoints
+    private GameObject trackCheckpoint;
+    private GameObject squareCheckpoint;
+
     private bool taskInProgress = false;
 
     private LandingPad landingPad;
 
     private bool hasEnteredGimbalMode = false;  // Flag for Gimbal Mode task
-    private bool hasTakenPhoto = false;  // Flag for Photo Mode task
-    private bool hasDrawnSquare = false;  // Flag for Square Draw task
-    private bool checkpointObjectiveCompleted = false; // Flag for Checkpoint Task
+    private bool checkpointObjectiveCompleted = false; // Flag for Track Task
+    private bool squareTaskCompleted = false; // Flag for Square Task
 
     private void Start()
     {
         StartCoroutine(AssignDroneReferences());
         landingPad = GameObject.Find("Landing_Pad").GetComponent<LandingPad>();
+
+        // Initialize the Track and Square Checkpoints
+        trackCheckpoint = checkpointsParent.transform.Find("TrackCheckpoint").gameObject;
+        squareCheckpoint = checkpointsParent.transform.Find("SquareCheckpoint").gameObject;
+
+        // Initially hide both checkpoints
+        if (trackCheckpoint != null)
+        {
+            trackCheckpoint.SetActive(false); // Disable Track checkpoint initially
+        }
+
+        if (squareCheckpoint != null)
+        {
+            squareCheckpoint.SetActive(false); // Disable Square checkpoint initially
+        }
     }
 
     private IEnumerator AssignDroneReferences()
@@ -59,10 +78,8 @@ public class TutorialManager : MonoBehaviour
         if (droneController == null) return; // ✅ Prevent null issues
         if (currentTaskIndex >= tutorialTasks.Length || taskInProgress) return;
 
-        // Check for keypresses for photo mode and gimbal mode
+        // Check for keypresses for gimbal mode
         CheckGimbalMode();
-        CheckPhotoMode();
-        CheckSquareDraw();
 
         // Task checks
         switch (currentTaskIndex)
@@ -112,14 +129,20 @@ public class TutorialManager : MonoBehaviour
                     StartCoroutine(CompleteTask());
                 break;
 
-            case 9: // Photo Mode (press P)
-                if (hasTakenPhoto)
+            case 9: // Track Objective (Complete Track)
+                if (checkpointObjectiveCompleted)
+                {
+                    DisableTrackCheckpoint();
+                    EnableSquareCheckpoint();
                     StartCoroutine(CompleteTask());
+                }
                 break;
 
-            case 10: // Checkpoint Objective (Player passes through a checkpoint)
-                if (checkpointObjectiveCompleted)
+            case 10: // Square Objective (Complete Square)
+                if (squareTaskCompleted)
+                {
                     StartCoroutine(CompleteTask());
+                }
                 break;
         }
     }
@@ -134,31 +157,7 @@ public class TutorialManager : MonoBehaviour
             {
                 hasEnteredGimbalMode = true;
                 Debug.Log("Gimbal Mode Entered!");
-            }
-        }
-    }
-
-    private void CheckPhotoMode()
-    {
-        if (currentTaskIndex == 9 && !hasTakenPhoto)
-        {
-            if (Input.GetKeyDown(KeyCode.P))  // When 'P' is pressed
-            {
-                hasTakenPhoto = true;
-                Debug.Log("Photo Mode Activated!");
-            }
-        }
-    }
-
-    private void CheckSquareDraw()
-    {
-        if (currentTaskIndex == 10 && !hasDrawnSquare)
-        {
-            // Assuming you have a function for detecting if the square is drawn
-            if (droneController.HasDrawnSquare)
-            {
-                hasDrawnSquare = true;
-                Debug.Log("Square Drawn!");
+                // Once Gimbal Mode is entered, complete the task
                 StartCoroutine(CompleteTask());
             }
         }
@@ -168,11 +167,35 @@ public class TutorialManager : MonoBehaviour
 
     public void CheckpointReached()
     {
-        if (currentTaskIndex == 10 && !checkpointObjectiveCompleted)
+        if (currentTaskIndex == 9 && !checkpointObjectiveCompleted)
         {
             checkpointObjectiveCompleted = true;
             Debug.Log("Checkpoint Objective Completed!");
             StartCoroutine(CompleteTask());
+        }
+        if (currentTaskIndex == 10 && !squareTaskCompleted)
+        {
+            squareTaskCompleted = true;
+            Debug.Log("Square Task Completed!");
+            StartCoroutine(CompleteTask());
+        }
+    }
+
+    // ------------------- Checkpoint Enable/Disable -------------------
+
+    private void DisableTrackCheckpoint()
+    {
+        if (trackCheckpoint != null)
+        {
+            trackCheckpoint.SetActive(false); // Disable the track checkpoint
+        }
+    }
+
+    private void EnableSquareCheckpoint()
+    {
+        if (squareCheckpoint != null)
+        {
+            squareCheckpoint.SetActive(true); // Enable the square checkpoint
         }
     }
 
