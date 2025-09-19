@@ -16,7 +16,6 @@ public enum TaskState
     SquareObjective = 8,
     Land = 9,
     Disarm = 10,
-
 }
 
 public class TutorialManager : MonoBehaviour
@@ -152,6 +151,23 @@ public class TutorialManager : MonoBehaviour
         taskInProgress = true;
         yield return new WaitForSeconds(2.0f); // delay for feedback
 
+        // Prompt to press Enter to continue to the next task, except for the last task
+        if (currentTaskIndex != tutorialTasks.Length - 1)
+        {
+            taskText.text = "Press Enter to continue to next task";
+
+            // Wait for Enter key press to continue to the next task
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        }
+        else
+        {
+            // If it's the last task, directly show "Tutorial Completed"
+            taskText.text = "🎉 Tutorial Completed!";
+            yield return new WaitForSeconds(2.0f);  // Wait for 2 seconds to show "Tutorial Completed!"
+            if (tutorialUI != null) Destroy(tutorialUI);  // Hide tutorial UI after completion
+        }
+
+        // Move to the next task
         currentTaskIndex++;
 
         if (currentTaskIndex < tutorialTasks.Length)
@@ -161,11 +177,6 @@ public class TutorialManager : MonoBehaviour
 
             // Start the next task check
             BeginTask(currentTask);
-        }
-        else
-        {
-            Debug.Log("🎉 Tutorial Completed!");
-            if (tutorialUI != null) Destroy(tutorialUI);
         }
 
         taskInProgress = false;
@@ -267,7 +278,6 @@ public class TutorialManager : MonoBehaviour
         yield return new WaitUntil(() => droneController != null && !droneController.startupDone);
         onComplete?.Invoke();
     }
-
 
     // ─────────── Input Hooks ───────────
     private void Update()
