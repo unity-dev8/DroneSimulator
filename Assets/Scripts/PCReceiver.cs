@@ -1049,7 +1049,11 @@ public class PCReceiver : MonoBehaviour
         }
         catch (System.Exception e)
         {
-            UnityEngine.Debug.LogError($"Error checking device connection: {e.Message}");
+#if !UNITY_EDITOR
+    UnityEngine.Debug.LogError($"Error checking device connection: {e.Message}");
+#else
+    //UnityEngine.Debug.Log($"Error checking device connection: {e.Message}");
+#endif
             if (UseAndroidInput)
             {
                 await HandleDisconnectionAsync();

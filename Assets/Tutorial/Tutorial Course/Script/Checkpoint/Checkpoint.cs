@@ -1,6 +1,4 @@
-using System.Xml.Serialization;
 using UnityEngine;
-using UnityEngine.Accessibility;
 
 public class Checkpoint: MonoBehaviour
 {

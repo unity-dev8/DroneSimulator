@@ -848,11 +848,14 @@ MonoBehaviour:
   - Complete the square track.
   - Land in the highlighting landing zone "H"
   - "Press \"A\" ,\"S\" , \"\u2192\" & \" \u2193\" all together Arm the drone."
+  currentTask: 0
   taskText: {fileID: 1307392597}
   tutorialUI: {fileID: 1105555021}
-  droneController: {fileID: 0}
-  joystickInput: {fileID: 0}
-  checkpointsParent: {fileID: 5139868691799176793, guid: 93c342391123b7145bf390090720467d, type: 3}
+  droneController: {fileID: 6471793129972847776}
+  joystickInput: {fileID: 6471793129972847790}
+  trackCheckpoint: {fileID: 2097598006}
+  squareCheckpoint: {fileID: 1038717711}
+  landingPad: {fileID: 1672231188}
 --- !u!1 &117581349
 GameObject:
   m_ObjectHideFlags: 0
@@ -9320,6 +9323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkpointList: []
+  nextCheckpointSingleIndex: 0
 --- !u!1 &1040268021
 GameObject:
   m_ObjectHideFlags: 0
@@ -14025,7 +14029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc4f793194f8d4a499e1065aa186cd7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackCheckpoint: {fileID: 2097598006}
+  trackCheckpoint: {fileID: 1038717711}
 --- !u!4 &1689652207 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9037914245240358235, guid: 4cdc4b609b812a9419457fe7457830a5, type: 3}
@@ -16685,6 +16689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkpointList: []
+  nextCheckpointSingleIndex: 0
 --- !u!4 &2097598007
 Transform:
   m_ObjectHideFlags: 0
@@ -21934,6 +21939,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9fa9062803044247b1660bcd072dbfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6471793129972847790 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1433396561493109080, guid: 4eba5d7473524a04aa06d35127ce773c, type: 3}
+  m_PrefabInstance: {fileID: 6246734345090531160}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 106763939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db559a44b075d4e4fbc033fa02f76c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!222 &6549254480144120396

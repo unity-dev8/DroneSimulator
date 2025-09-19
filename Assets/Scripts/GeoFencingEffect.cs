@@ -14,13 +14,13 @@ public class GeoFencingEffect : MonoBehaviour
         if (effectImage1 != null && effectImage1.material != null)
         {
             effectImage1.material.SetColor("_GlowColor", color);
-            Debug.Log($"Setting glow color to: {color} for effectImage1");
+            //Debug.Log($"Setting glow color to: {color} for effectImage1");
         }
         
         if (effectImage2 != null && effectImage2.material != null)
         {
             effectImage2.material.SetColor("_GlowColor", color);
-            Debug.Log($"Setting glow color to: {color} for effectImage2");
+            //Debug.Log($"Setting glow color to: {color} for effectImage2");
         }
     }
 

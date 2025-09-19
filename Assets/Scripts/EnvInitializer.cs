@@ -39,12 +39,11 @@ public class GameInitializer : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(SelectionManager.Instance);
+        Debug.Log($"SelectionManager Instance is null or empty {SelectionManager.Instance}");
 
-        // Use indices instead of names
-        int envIndex = SelectionManager.Instance?.selectedEnvironment?.index ?? defaultenvIndex; // Default to Defense Zone (2)
-        int droneIndex = SelectionManager.Instance?.selectedDrone?.index ?? defaultdroneIndex; // Default to Agriculture (0)
-        string scenarioName = SelectionManager.Instance?.selectedScenario?.scenarioName ?? "Shapes"; // Keep scenarios as names
+        int envIndex = SelectionManager.Instance?.selectedEnvironment?.index ?? defaultenvIndex;
+        int droneIndex = SelectionManager.Instance?.selectedDrone?.index ?? defaultdroneIndex; 
+        string scenarioName = SelectionManager.Instance?.selectedScenario?.scenarioName ?? "Shapes";
 
         Debug.Log($"Environment Index: {envIndex}");
         Debug.Log($"Drone Index: {droneIndex}");
